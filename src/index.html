@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinela-Cidadão - Monitoramento Hidrológico</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        header { background-color: #1a365d; color: white; padding: 15px; text-align: center; }
+        #map { height: 500px; width: 100%; }
+        .container { padding: 20px; }
+        .card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-top: 15px; }
+        .alert-badge { background: #e53e3e; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projeto Sentinela-Cidadão</h1>
+        <p>Monitoramento de Riscos Hidrológicos - Bacia do Aricanduva</p>
+    </header>
+
+    <div class="container">
+        <div id="map"></div>
+        <div class="card">
+            <h3>Status do Sistema em Tempo Real</h3>
+            <p><strong>Último Alerta:</strong> <span class="alert-badge">ALERTA</span> Risco de alagamento na calha central do Aricanduva.</p>
+            <p><em>Dados sincronizados com o banco de dados PostgreSQL.</em></p>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Inicialização do Mapa centralizado na Zona Leste de SP (Aricanduva)
+        const map = L.map('map').setView([-23.5725, -46.5050], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Marcadores dos Piscinões (obtidos da tabela Piscinao)
+        const piscinao1 = L.circle([-23.5650, -46.5200], {
+            color: 'green',
+            fillColor: '#2f855a',
+            fillOpacity: 0.5,
+            radius: 300
+        }).addTo(map).bindPopup('<b>Piscinão Aricanduva 1</b><br>Status: Operação Normal');
+
+        const piscinao2 = L.circle([-23.5800, -46.4900], {
+            color: 'red',
+            fillColor: '#e53e3e',
+            fillOpacity: 0.6,
+            radius: 400
+        }).addTo(map).bindPopup('<b>Piscinão Ragueb Chohfi</b><br>Status: Alerta Amarelo (85% Capacidade)');
+    </script>
+</body>
+</html>
